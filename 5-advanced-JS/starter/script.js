@@ -1,82 +1,47 @@
-///////////////////////
-//CONSTRUCTOR FUNCTION
-///////////////////////
+// let answer = prompt("What is the correct answer?(please only type the number)")
 
-// var Person = function(name, yob, job){
-//     this.name = name;
-//     this.yob = yob;
-//     this.job = job;
-// }
+// console.log(answer)
 
-// Person.prototype.calculateAge = function(){
-//     console.log(2019 - this.yob)
-// }
+//make a function constructor that makes questions.
+//Each question object should hold:
+//the question
+//the answers in an array
+//the right answer
 
-// // Person.prototype.lastName = this.lastName
+promptQuestions()
 
-// var john = new Person('John', 1990, 'teacher');
-// var eric = new Person('Eric', 1988, 'SOFTWARE ENGINEER')
-// var abby = new Person('Abby', 1993, 'nurse')
+function promptQuestions(){
+    var Question = function(question, ansArr, rightAnswer){
+        this.question = question;
+        this.ansArr = ansArr;
+        this.rightAnswer = rightAnswer;
+        function findAnswer(){
+            
+        }
+    }
 
-// eric.lastName = 'olaveson'
+    let q1 = new Question("Name the best NBA team...", ["1-Jazz", "2-Lakers", "3-Bulls", "4-Celtics"], "1")
+    let q2 = new Question("Name the best MLS team...", ["1-Sounders", "2-Galaxy", "3-Real SL", "4-Dallas FC"], "3")
+    let q3 = new Question("Which should I eat...", ["1-Steak", "2-Sweet Potatos", "3-Ribs", "4-Steamed Veggies", "5-All of the previous foods :P"], "5")
 
-// console.log(eric.lastName)
+    let questionsArray = [q1, q2, q3]
 
-//////////////////////////////
-//OBJECT.CREATE
-//////////////////////////////
-//in this way we do not capitalize the variable
+    let instanceQuestion =  questionsArray[Math.floor(Math.random() *3)]
 
-/*
-var personProto = {
-    calculateAge: function() {
-        console.log(2019-this.yob)
+    instanceQuestion.ansArr.forEach((e)=>{
+        console.log(e)
+    })
+
+    let answer = prompt(`What is the correct answer?(please only type the number) ${instanceQuestion.question}?`)
+
+    console.log(`the input answer = ${answer}`)
+    console.log(`the question answer = ${instanceQuestion.rightAnswer}`)
+
+    if(answer === instanceQuestion.rightAnswer){
+        console.log("You nailed it!")
+    }else{
+        console.log(":( Better luck next time.")
     }
 }
-
-var eric = Object.create(personProto);
-eric.name = 'Eric';
-eric.yob = 1988;
-eric.job = 'programmer';
-
-var abby = Object.create(personProto, 
-    {
-        name: {value: 'Abby'},
-        yob: {value: 1993},
-        job: {value: 'nurse'}
-    });
-*/
-
-
-//PRIMITIVES
-var a = 23;
-var b = a;
-a = 12;
-console.log(a, b)
-// a = 12 while b = 23
-
-//OBJECTS
-var obj1 = { 
-    name: 'Eric',
-    age: 25
-}
-var obj2 = obj1
-obj1.age = 30;
-console.log(obj1)
-console.log(obj2)
-// Both objects have the age = 30
-
-//FUNCTIONS
-var age = 30;
-var obj = {
-    name : 'Eric',
-    city : 'Dallas'
-}
-function change(a, b){
-    a = 27;
-    b.city = 'Rigby'
-}
-change(age, obj)
-console.log(age, obj)
 
 
