@@ -110,7 +110,7 @@ function promptQuestionsExpert(){
         })
 
         //displaying the prompt question
-        let answer = prompt(`What is the correct answer?(please only type the number) ${instanceQuestion.question}? To leave type "exit"`)
+        let answer = prompt(`What is the correct answer?(please only type the number)\n${instanceQuestion.question}?\nTo leave type "exit"`)
 
         //logging the answer and instance answer to make sure they are the same
         // console.log(`the input answer = ${answer}`)
