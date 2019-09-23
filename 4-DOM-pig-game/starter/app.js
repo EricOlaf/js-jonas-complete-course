@@ -9,59 +9,59 @@ GAME RULES:
 
 */
 
-let scores, roundScore, activePlayer, gamePlaying, lastRoll, setScore;
+// let scores, roundScore, activePlayer, gamePlaying, lastRoll, setScore;
 
-init()
+// init()
 
 
-document.querySelector('.btn-score').addEventListener('click',function(){
-    setScore = document.querySelector('.score-input').value;
-    document.querySelector('.score-input').placeholder= 'Score set to ' + setScore;
-    document.querySelector('.score-input').value= "";
+// document.querySelector('.btn-score').addEventListener('click',function(){
+//     setScore = document.querySelector('.score-input').value;
+//     document.querySelector('.score-input').placeholder= 'Score set to ' + setScore;
+//     document.querySelector('.score-input').value= "";
     
-    console.log(setScore)
-})
+//     console.log(setScore)
+// })
 
-document.querySelector('.btn-roll').addEventListener('click', function() {
-    if(gamePlaying){
-        console.log(setScore)
-        console.log(activePlayer)
-       //Random number
-        let dice0 = Math.ceil(Math.random()*6);
-        let dice1 = Math.ceil(Math.random()*6);
-        console.log("dice0 = " +dice0, "lastRoll0 = " +lastRoll0)
-        console.log("dice1 = " +dice1, "lastRoll1 = " +lastRoll1)
+// document.querySelector('.btn-roll').addEventListener('click', function() {
+//     if(gamePlaying){
+//         console.log(setScore)
+//         console.log(activePlayer)
+//        //Random number
+//         let dice0 = Math.ceil(Math.random()*6);
+//         let dice1 = Math.ceil(Math.random()*6);
+//         console.log("dice0 = " +dice0, "lastRoll0 = " +lastRoll0)
+//         console.log("dice1 = " +dice1, "lastRoll1 = " +lastRoll1)
 
-        //Display the result
-        let diceDom0 = document.querySelector('.dice-0')
-        let diceDom1 = document.querySelector('.dice-1')
-        diceDom0.style.display = 'block';
-        diceDom1.style.display = 'block';
-        diceDom0.src = 'dice-' + dice0 + '.png';
-        diceDom1.src = 'dice-' + dice1 + '.png';
+//         //Display the result
+//         let diceDom0 = document.querySelector('.dice-0')
+//         let diceDom1 = document.querySelector('.dice-1')
+//         diceDom0.style.display = 'block';
+//         diceDom1.style.display = 'block';
+//         diceDom0.src = 'dice-' + dice0 + '.png';
+//         diceDom1.src = 'dice-' + dice1 + '.png';
         
 
-        //Update the round score IF the number was NOT a ONE or if ONE move to next player.
-        if(dice0 > 1 && dice1 > 1) {
+//         //Update the round score IF the number was NOT a ONE or if ONE move to next player.
+//         if(dice0 > 1 && dice1 > 1) {
 
-            //If a player rolls two sixes in a row, not on the same turn, then their total score goes to zero and lose their turn.
-            if((lastRoll0 === 6 || lastRoll1 === 6) && (dice0 === 6 || dice1 === 6)){
-                document.getElementById('score-' + activePlayer).textContent = '0';
-                scores[activePlayer] = 0;
-                nextPlayer()
-            } else {
-                //Adding the current dice to the current score and setting the previous dice to the current dice.
-                roundScore += dice0 + dice1;
-                document.querySelector('#current-' + activePlayer).textContent = roundScore;
-                lastRoll0 = dice0;
-                lastRoll1 = dice1
-            }
-        } else {
-            //if the player rolled a 1 than their turn is over
-            nextPlayer()
-        } 
-    }
-})
+//             //If a player rolls two sixes in a row, not on the same turn, then their total score goes to zero and lose their turn.
+//             if((lastRoll0 === 6 || lastRoll1 === 6) && (dice0 === 6 || dice1 === 6)){
+//                 document.getElementById('score-' + activePlayer).textContent = '0';
+//                 scores[activePlayer] = 0;
+//                 nextPlayer()
+//             } else {
+//                 //Adding the current dice to the current score and setting the previous dice to the current dice.
+//                 roundScore += dice0 + dice1;
+//                 document.querySelector('#current-' + activePlayer).textContent = roundScore;
+//                 lastRoll0 = dice0;
+//                 lastRoll1 = dice1
+//             }
+//         } else {
+//             //if the player rolled a 1 than their turn is over
+//             nextPlayer()
+//         } 
+//     }
+// })
 
 document.querySelector('.btn-hold').addEventListener('click', function() {
     if(gamePlaying){
