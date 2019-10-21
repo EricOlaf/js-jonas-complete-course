@@ -24,9 +24,13 @@ class Street extends Element{
         this.streetLength = streetLength;
     }
     streetClassFunc(){
-        let streetInternalFunc = (streetClass) => {
+        //I did binding for fun, but an arrow function would work instead of having to bind it.
+        streetInternalFunc = streetInternalFunc.bind(this)
+        function streetInternalFunc (streetClass){
             console.log(`${this.name}, built in ${this.year} is a ${streetClass} street.`)
         }
+
+        //I could have used a Map which would have been easy but this is what came to mind.
         switch(true){
             case this.streetLength < 500 :
                 streetInternalFunc('tiny')
