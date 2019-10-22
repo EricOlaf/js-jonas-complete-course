@@ -74,8 +74,6 @@ function streetLengthAvg(arr){
     return(totalLength, totalLength/arr.length)
 }
 
-
-
 let allParks = [
     new Park("Rigby Park", 1974, 382, 690),
     new Park("Rigby Lake Park", 1994, 802, 801),
