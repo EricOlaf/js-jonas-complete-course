@@ -1,6 +1,7 @@
 //BUDGET CONTROLLER
 var budgetController = (function(){
  
+    //Function constructors that will help to setup the list of obj that will go into inc and exp.
     var Expense = function(value, description, id){
         this.value = value,
         this.description = description,
