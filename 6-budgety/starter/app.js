@@ -12,11 +12,9 @@ var budgetController = (function(){
     Expense.prototype.calcPercentage = function(totalIncome){
         if(totalIncome > 0){
             this.percentage = Math.round(this.value / totalIncome *100)
-            console.log(this.percentage)
         }else{
             this.percentage = -1;
         }
-  
     }
 
     Expense.prototype.getPercentage = function(){
@@ -72,8 +70,6 @@ var budgetController = (function(){
             //push newItem into the allItems and right array.
             data.allItems[type].push(newItem)
 
-            console.log(data)
-
             //return the new element
             return newItem;
         },
@@ -91,7 +87,6 @@ var budgetController = (function(){
             if(index !== -1){
                 data.allItems[type].splice(index, 1)
             }
-            console.log(data.allItems[type])
         },
 
         calculateBudget: function(){
@@ -105,6 +100,8 @@ var budgetController = (function(){
             //calc the percentage of income that we spent.
             if(data.totals.inc && data.totals.exp){
                 data.percentage = Math.round(data.totals.exp / data.totals.inc * 100);
+            }else{
+                data.percentage = -1;
             }
            
         },
@@ -152,7 +149,8 @@ var UIcontroller = (function(){
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expensesPercentagelabel: '.item__percentage'
 
     }
 
@@ -202,7 +200,6 @@ var UIcontroller = (function(){
         },
 
         displayBudget: function(obj){
-            console.log(obj);
             document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
             document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
             document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
@@ -211,6 +208,25 @@ var UIcontroller = (function(){
             }else{
                 document.querySelector(DOMstrings.percentageLabel).textContent = '---'
             }
+        },
+
+        displayPercentages: function(percentages){
+            var fields, nodeListForEach;
+            fields = document.querySelectorAll(DOMstrings.expensesPercentagelabel)
+
+            nodeListForEach = function(list, cb){
+                for(var i = 0; i < list.length; i++){
+                    cb(list[i], i)
+                }
+            }
+
+            nodeListForEach(fields, function(cur, ind){
+                if(percentages[ind] > 0){
+                    cur.textContent = percentages[ind] + "%";
+                }else{
+                    cur.textContent = '--'
+                }
+            })
         },
 
         getDOMstrings: function(){
@@ -254,9 +270,9 @@ var controller = (function(budgetCTRL, uiCTRL){
 
         //2. read percentages from the budget controller
         var percentages = budgetCTRL.getPercentages();
-        console.log(percentages);
 
         //3. update the ui with new percentages
+        uiCTRL.displayPercentages(percentages);
     }
 
     var ctrlAddItem = function(){
@@ -270,12 +286,9 @@ var controller = (function(budgetCTRL, uiCTRL){
             newItem  = budgetCTRL.addItem(input.type, input.description, input.value)
 
             //3. Add item to UI
-
             uiCTRL.addListItem(newItem, input.type)
             uiCTRL.clearFields();
-
             updateBudget();
-
             updatePercentages();
         }
     }
@@ -285,7 +298,6 @@ var controller = (function(budgetCTRL, uiCTRL){
         itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
         
         if(itemID){
-            console.log("hit")
             splitID = itemID.split("-");
             type = splitID[0];
             ID = splitID[1];
@@ -294,11 +306,10 @@ var controller = (function(budgetCTRL, uiCTRL){
             budgetCTRL.deleteItem(type, ID)
             
             //2. delete item from the ui
-            console.log(itemID)
             uiCTRL.deleteListItem(itemID)
+
             //3. update and display the new ui
             updateBudget();
-
             updatePercentages();
         }
     }
