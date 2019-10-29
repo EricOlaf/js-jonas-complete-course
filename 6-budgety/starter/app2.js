@@ -1,0 +1,1 @@
+//Remake of app.js on my own to test my skills.
