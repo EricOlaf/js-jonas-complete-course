@@ -34,11 +34,9 @@ budgetModule = (function(){
     }
     return{
         addInputtoBudget: function(input){
-            console.log("bd hit")
             var id, type = input.inType, desc = input.inDesc, val = input.inValue, newItem
             //setup the id
             data.lists[type].length === 0 ? id = 0 : id = data.lists[type][data.lists[type].length-1].id + 1;
-            console.log(id)
             //make a new object using the expense or income constructor functions
             if(type === 'exp'){
                 newItem = new Expense(desc, val, id)
@@ -47,7 +45,6 @@ budgetModule = (function(){
             }
             data.lists[type].push(newItem)
             calcData(type)
-            console.log(data)
             return data
         },
        
@@ -60,16 +57,18 @@ uiModule = (function(){
         addType: '.add__type',
         addDesc: '.add__description',
         addValue: '.add__value',
-        addBtn: '.add__btn'
+        addBtn: '.add__btn',
+        incomeList: '.income__list',
+        expensesList: 'expenses__list'
     }
     function displayTotal(total){
-
+        console.log(total)
     }
     function displayIncExpTotals(inc, exp){
-
+        console.log(inc, exp)
     }
     function displayLists(inc, exp){
-        
+        console.log(inc, exp)
     }
 
 
