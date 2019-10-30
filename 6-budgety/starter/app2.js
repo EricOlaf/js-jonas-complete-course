@@ -45,7 +45,7 @@ budgetModule = (function(){
             }
             data.lists[type].push(newItem)
             calcData(type)
-            return data
+            return [data, newItem, type]
         },
        
     }
@@ -62,7 +62,7 @@ uiModule = (function(){
         incTotal: '.budget__income--value',
         expTotal: '.budget__expenses--value',
         incomeList: '.income__list',
-        expensesList: 'expenses__list'
+        expensesList: '.expenses__list'
     }
     function displayTotal(total){
         document.querySelector(DOMstrings.budgetTotal).innerHTML = total; 
@@ -71,26 +71,31 @@ uiModule = (function(){
         document.querySelector(DOMstrings.incTotal).innerHTML = inc;
         document.querySelector(DOMstrings.expTotal).innerHTML = exp;
     }
-    function displayLists(inc, exp){
-        var html, container
+    function resetInputs(){
+        document.querySelector(DOMstrings.addDesc).value = "";
+        document.querySelector(DOMstrings.addValue).value = "";
 
-        function displayEachList(type, html, obj, container){
+    }
+    function displayLists(newItem, type){
+        var html, container
+        
+        function displayEachList(html, obj, container){
             var newHtml
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.desc);
             newHtml = newHtml.replace('%value%', obj.value);
             document.querySelector(container).insertAdjacentHTML('beforeend', newHtml);
         }
-        inc.forEach(e=>{
+        if(type === 'inc'){
             container = DOMstrings.incomeList
             html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div><div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
-            displayEachList('inc', html, e, container)
-        })
-        exp.forEach(e=>{
+            displayEachList(html, newItem, container)
+        }else{
             container = DOMstrings.expensesList
             html = '<div class="item clearfix" id="exp-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div><div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
-            displayEachList('exp', html, e, container)
-        })
+            displayEachList(html, newItem, container)
+        }
+        resetInputs()
     }
 
 
@@ -103,10 +108,11 @@ uiModule = (function(){
                 inValue: parseFloat(document.querySelector(DOMstrings.addValue).value)
             }
         },
-        displayData:function(data){
-            displayTotal(data.total);
-            displayIncExpTotals(data.totals.inc, data.totals.exp);
-            displayLists(data.lists.inc, data.lists.exp);
+        displayData:function(dataArr){
+            //[data, newItem, type]
+            displayTotal(dataArr[0].total);
+            displayIncExpTotals(dataArr[0].totals.inc, dataArr[0].totals.exp);
+            displayLists(dataArr[1], dataArr[2]);
         },
         getDomStr: function(){
             return DOMstrings
