@@ -1,9 +1,41 @@
 //Remake of app.js on my own to test my skills.
 
 budgetModule = (function(){
+    var Expense = function(desc, value, id){
+        this.desc = desc,
+        this.value = value,
+        this.id = id
+    }
+    var Income = function(desc, value, id){
+        this.desc = desc,
+        this.value = value,
+        this.id = id
+    }
+    var data = {
+        total:0,
+        totals:{
+            inc:0,
+            exp:0
+        },
+        lists:{
+            inc: [],
+            exp: []
+        }
+    }
 
     return{
-       
+        addInputtoBudget: function(input){
+            var id, type = input.inType, desc = input.inDesc, val = input.inValue
+            //setup the id
+            data.lists[type].length === 0 ? id = 0 : id = data.lists[type][data.lists[type].length-1] + 1;
+
+            //make a new object using the expense or income constructor functions
+            if(type === 'exp'){
+                new Expense(desc, val, id)
+            }else{
+                new Income(desc, val, id)
+            }
+        }
     }
 })()
 
@@ -37,7 +69,6 @@ controllerModule = (function(bdMod, uiMod){
     function setupListeners (){
          //Setup the click listener on the button
         const DOMstrings = uiMod.getDomStr();
-        console.log(DOMstrings)
         document.querySelector(DOMstrings.addBtn).addEventListener('click', addInputItems)
     }
 
@@ -45,7 +76,8 @@ controllerModule = (function(bdMod, uiMod){
         //get and store the input values then send them to the budget module to perform calculations, then be able to update the ui with the new values.
         var input = uiMod.inputValues()
         if(input.inDesc && input.inValue){
-            console.log(input);
+            //sends the input to the budget
+            bdMod.addInputtoBudget(input)
         }
     }
 
