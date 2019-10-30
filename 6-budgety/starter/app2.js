@@ -23,8 +23,13 @@ budgetModule = (function(){
         }
     }
 
-    function calcData(){
-
+    function calcData(type){
+        var sum = 0
+        data.lists[type].forEach(function(e){
+            sum += e.value
+        })
+        data.totals[type]=sum;
+        data.total = data.totals.inc - data.totals.exp;
     }
     return{
         addInputtoBudget: function(input){
@@ -40,6 +45,7 @@ budgetModule = (function(){
                 newItem = new Income(desc, val, id)
             }
             data.lists[type].push(newItem)
+            calcData(type)
             console.log(data)
         }
     }
