@@ -125,7 +125,12 @@ controllerModule = (function(bdMod, uiMod){
     function setupListeners (){
          //Setup the click listener on the button
         const DOMstrings = uiMod.getDomStr();
+
         document.querySelector(DOMstrings.addBtn).addEventListener('click', addInputItems)
+        document.querySelector(DOMstrings.budgetTotal).innerHTML = 0;
+        document.querySelector(DOMstrings.incTotal).innerHTML = 0;
+        document.querySelector(DOMstrings.expTotal).innerHTML = 0;
+
     }
 
     function addInputItems(){
