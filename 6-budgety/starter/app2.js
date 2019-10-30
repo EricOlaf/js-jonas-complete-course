@@ -58,17 +58,39 @@ uiModule = (function(){
         addDesc: '.add__description',
         addValue: '.add__value',
         addBtn: '.add__btn',
+        budgetTotal: '.budget__value',
+        incTotal: '.budget__income--value',
+        expTotal: '.budget__expenses--value',
         incomeList: '.income__list',
         expensesList: 'expenses__list'
     }
     function displayTotal(total){
-        console.log(total)
+        document.querySelector(DOMstrings.budgetTotal).innerHTML = total; 
     }
     function displayIncExpTotals(inc, exp){
-        console.log(inc, exp)
+        document.querySelector(DOMstrings.incTotal).innerHTML = inc;
+        document.querySelector(DOMstrings.expTotal).innerHTML = exp;
     }
     function displayLists(inc, exp){
-        console.log(inc, exp)
+        var html, container
+
+        function displayEachList(type, html, obj, container){
+            var newHtml
+            newHtml = html.replace('%id%', obj.id);
+            newHtml = newHtml.replace('%description%', obj.desc);
+            newHtml = newHtml.replace('%value%', obj.value);
+            document.querySelector(container).insertAdjacentHTML('beforeend', newHtml);
+        }
+        inc.forEach(e=>{
+            container = DOMstrings.incomeList
+            html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div><div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
+            displayEachList('inc', html, e, container)
+        })
+        exp.forEach(e=>{
+            container = DOMstrings.expensesList
+            html = '<div class="item clearfix" id="exp-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div><div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
+            displayEachList('exp', html, e, container)
+        })
     }
 
 
