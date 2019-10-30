@@ -23,18 +23,24 @@ budgetModule = (function(){
         }
     }
 
+    function calcData(){
+
+    }
     return{
         addInputtoBudget: function(input){
-            var id, type = input.inType, desc = input.inDesc, val = input.inValue
+            console.log("bd hit")
+            var id, type = input.inType, desc = input.inDesc, val = input.inValue, newItem
             //setup the id
-            data.lists[type].length === 0 ? id = 0 : id = data.lists[type][data.lists[type].length-1] + 1;
-
+            data.lists[type].length === 0 ? id = 0 : id = data.lists[type][data.lists[type].length-1].id + 1;
+            console.log(id)
             //make a new object using the expense or income constructor functions
             if(type === 'exp'){
-                new Expense(desc, val, id)
+                newItem = new Expense(desc, val, id)
             }else{
-                new Income(desc, val, id)
+                newItem = new Income(desc, val, id)
             }
+            data.lists[type].push(newItem)
+            console.log(data)
         }
     }
 })()
