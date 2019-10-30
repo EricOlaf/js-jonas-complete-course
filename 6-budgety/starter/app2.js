@@ -30,6 +30,7 @@ budgetModule = (function(){
         })
         data.totals[type]=sum;
         data.total = data.totals.inc - data.totals.exp;
+        
     }
     return{
         addInputtoBudget: function(input){
@@ -47,7 +48,9 @@ budgetModule = (function(){
             data.lists[type].push(newItem)
             calcData(type)
             console.log(data)
-        }
+            return data
+        },
+       
     }
 })()
 
@@ -59,6 +62,16 @@ uiModule = (function(){
         addValue: '.add__value',
         addBtn: '.add__btn'
     }
+    function displayTotal(total){
+
+    }
+    function displayIncExpTotals(inc, exp){
+
+    }
+    function displayLists(inc, exp){
+        
+    }
+
 
     return{
         inputValues:function() {
@@ -69,10 +82,14 @@ uiModule = (function(){
                 inValue: parseFloat(document.querySelector(DOMstrings.addValue).value)
             }
         },
+        displayData:function(data){
+            displayTotal(data.total);
+            displayIncExpTotals(data.totals.inc, data.totals.exp);
+            displayLists(data.lists.inc, data.lists.exp);
+        },
         getDomStr: function(){
             return DOMstrings
-        }
-       
+        },
     }
 })()
 
@@ -85,12 +102,14 @@ controllerModule = (function(bdMod, uiMod){
     }
 
     function addInputItems(){
+        var data 
         //get and store the input values then send them to the budget module to perform calculations, then be able to update the ui with the new values.
         var input = uiMod.inputValues()
         if(input.inDesc && input.inValue){
             //sends the input to the budget
-            bdMod.addInputtoBudget(input)
+            data = bdMod.addInputtoBudget(input)
         }
+        uiMod.displayData(data)
     }
 
     return{
