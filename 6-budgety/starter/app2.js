@@ -41,7 +41,6 @@ budgetModule = (function(){
         if(data.totals.inc > 0 && data.totals.exp > 0){
             data.expPercent = Math.round((data.totals.exp / data.totals.inc) *100);
         }
-        console.log(data.expPercent)
     }
     return{
         addInputtoBudget: function(input){
@@ -63,7 +62,6 @@ budgetModule = (function(){
                e.calcPercentage();
                return e.percentage;
            })
-           console.log(expPercentages)
            return expPercentages
         }
        
@@ -84,6 +82,7 @@ uiModule = (function(){
         expensesList: '.expenses__list',
         expTotalPercent: '.budget__expenses--percentage',
         expensesPercentagelabel: '.item__percentage',
+        container: '.container'
     }
     function nodeListLoop(fields, cb){
         for(let i = 0; i < fields.length; i++){
@@ -136,7 +135,6 @@ uiModule = (function(){
             }
         },
         showPercentages: function(percentages){
-            console.log(percentages)
             var fields = document.querySelectorAll(DOMstrings.expensesPercentagelabel)
             nodeListLoop(fields, function(cur, ind){
                 if(percentages[ind]>0){
@@ -164,12 +162,22 @@ controllerModule = (function(bdMod, uiMod){
          //Setup the click listener on the button
         const DOMstrings = uiMod.getDomStr();
 
+        //Listeners
         document.querySelector(DOMstrings.addBtn).addEventListener('click', addInputItems)
+        document.querySelector(DOMstrings.container).addEventListener('click', deleteItem)
+
+        //Reset all HTML components to empty values.
         document.querySelector(DOMstrings.budgetTotal).innerHTML = 0;
         document.querySelector(DOMstrings.incTotal).innerHTML = 0;
         document.querySelector(DOMstrings.expTotal).innerHTML = 0;
         document.querySelector(DOMstrings.expTotalPercent).innerHTML = "--";
 
+    }
+
+    function deleteItem(event){
+        var itemID
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        console.log(itemID)
     }
 
     function addInputItems(){
