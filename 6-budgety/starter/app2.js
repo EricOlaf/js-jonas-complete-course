@@ -129,7 +129,12 @@ uiModule = (function(){
         }
         resetInputs()
     }
-
+    function delItem(type, id){
+        const newID = type + "-" +id;
+        console.log(newID)
+        var el = document.getElementById(newID);
+        el.parentNode.removeChild(el);
+    }
 
     return{
         inputValues:function() {
@@ -160,7 +165,22 @@ uiModule = (function(){
             return DOMstrings
         },
         uiDeleteItem: function(data){
-            
+            //[data, id, type]
+            // var data = {
+            //     total:0,
+            //     totals:{
+            //         inc:0,
+            //         exp:0
+            //     },
+            //     lists:{
+            //         inc: [],
+            //         exp: []
+            //     },
+            //     expPercent:0
+            // }
+            displayTotal(data[0].total);
+            displayIncExpTotals(data[0].totals.inc, data[0].totals.exp, data[0].expPercent);
+            delItem(data[2], data[1]);
         }
     }
 })()
@@ -195,6 +215,7 @@ controllerModule = (function(bdMod, uiMod){
             newTotals = bdMod.deleteItem(type, parseInt(idNum));
             percentages = bdMod.calcExpPercentage();
             uiMod.uiDeleteItem(newTotals);
+            uiMod.showPercentages(percentages);
         }
     }
 
