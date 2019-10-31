@@ -160,7 +160,7 @@ uiModule = (function(){
             return DOMstrings
         },
         uiDeleteItem: function(data){
-            console.log(data)
+            
         }
     }
 })()
@@ -193,6 +193,7 @@ controllerModule = (function(bdMod, uiMod){
             idNum = splitIDArr[1];
 
             newTotals = bdMod.deleteItem(type, parseInt(idNum));
+            percentages = bdMod.calcExpPercentage();
             uiMod.uiDeleteItem(newTotals);
         }
     }
