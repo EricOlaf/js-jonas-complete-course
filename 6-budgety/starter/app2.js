@@ -193,3 +193,8 @@ controllerModule = (function(bdMod, uiMod){
 })(budgetModule, uiModule)
 
 controllerModule.init()
+
+//Left to do:
+//delete items
+//format numbers
+//toggle red class on inputs
