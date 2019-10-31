@@ -6,6 +6,13 @@ budgetModule = (function(){
         this.value = value,
         this.id = id
     }
+    Expense.prototype.calcPercentage = function(){
+        if(data.totals.inc > 0){
+            this.percentage = Math.round((this.value/data.totals.inc)*100);
+        }else{
+            this.percentage = 0;
+        }
+    }
     var Income = function(desc, value, id){
         this.desc = desc,
         this.value = value,
@@ -20,7 +27,8 @@ budgetModule = (function(){
         lists:{
             inc: [],
             exp: []
-        }
+        },
+        expPercent:0
     }
 
     function calcData(type){
@@ -30,7 +38,10 @@ budgetModule = (function(){
         })
         data.totals[type]=sum;
         data.total = data.totals.inc - data.totals.exp;
-        
+        if(data.totals.inc > 0 && data.totals.exp > 0){
+            data.expPercent = Math.round((data.totals.exp / data.totals.inc) *100);
+        }
+        console.log(data.expPercent)
     }
     return{
         addInputtoBudget: function(input){
@@ -62,14 +73,16 @@ uiModule = (function(){
         incTotal: '.budget__income--value',
         expTotal: '.budget__expenses--value',
         incomeList: '.income__list',
-        expensesList: '.expenses__list'
+        expensesList: '.expenses__list',
+        expTotalPercent: '.budget__expenses--percentage'
     }
     function displayTotal(total){
         document.querySelector(DOMstrings.budgetTotal).innerHTML = total; 
     }
-    function displayIncExpTotals(inc, exp){
+    function displayIncExpTotals(inc, exp, expPercent){
         document.querySelector(DOMstrings.incTotal).innerHTML = inc;
         document.querySelector(DOMstrings.expTotal).innerHTML = exp;
+        document.querySelector(DOMstrings.expTotalPercent).innerHTML = expPercent + '%';
     }
     function resetInputs(){
         document.querySelector(DOMstrings.addDesc).value = "";
@@ -111,7 +124,7 @@ uiModule = (function(){
         displayData:function(dataArr){
             //[data, newItem, type]
             displayTotal(dataArr[0].total);
-            displayIncExpTotals(dataArr[0].totals.inc, dataArr[0].totals.exp);
+            displayIncExpTotals(dataArr[0].totals.inc, dataArr[0].totals.exp, dataArr[0].expPercent);
             displayLists(dataArr[1], dataArr[2]);
         },
         getDomStr: function(){
