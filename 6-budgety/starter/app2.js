@@ -90,17 +90,35 @@ uiModule = (function(){
         expensesPercentagelabel: '.item__percentage',
         container: '.container'
     }
+    function formatNums(num, type){
+        var int, dec, numSplit;
+        num = Math.abs(num);
+        num = num.toFixed(2);
+
+        numSplit = num.split('.')
+        int = numSplit[0]
+        if(int.length > 6){
+            int = int.substring(0, int.length-6)+','+int.substring(int.length-6, int.length-3)+ ',' + int.substring(int.length-3);
+        }else if(int.length > 3){
+            int = int.substring(0, int.length-3)+','+int.substring(int.length-3);
+        }
+        dec = numSplit[1];
+
+        return(type === 'inc'? '+' : '-') + int + '.' + dec;
+    }
     function nodeListLoop(fields, cb){
         for(let i = 0; i < fields.length; i++){
             cb(fields[i], i)
         }
     }
     function displayTotal(total){
-        document.querySelector(DOMstrings.budgetTotal).innerHTML = total; 
+        var sign
+        total > 0 ? sign = 'inc' : sign = 'exp'
+        document.querySelector(DOMstrings.budgetTotal).innerHTML = formatNums(total, sign); 
     }
     function displayIncExpTotals(inc, exp, expPercent){
-        document.querySelector(DOMstrings.incTotal).innerHTML = inc;
-        document.querySelector(DOMstrings.expTotal).innerHTML = exp;
+        document.querySelector(DOMstrings.incTotal).innerHTML = formatNums(inc, "inc");
+        document.querySelector(DOMstrings.expTotal).innerHTML = formatNums(exp, 'exp');
         document.querySelector(DOMstrings.expTotalPercent).innerHTML = expPercent + '%';
     }
     function resetInputs(){
@@ -111,21 +129,21 @@ uiModule = (function(){
     function displayLists(newItem, type){
         var html, container
         
-        function displayEachList(html, obj, container){
+        function displayEachList(html, obj, container, sign){
             var newHtml
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.desc);
-            newHtml = newHtml.replace('%value%', obj.value);
+            newHtml = newHtml.replace('%value%', formatNums(obj.value, sign));
             document.querySelector(container).insertAdjacentHTML('beforeend', newHtml);
         }
         if(type === 'inc'){
             container = DOMstrings.incomeList
             html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div><div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
-            displayEachList(html, newItem, container)
+            displayEachList(html, newItem, container, "inc")
         }else{
             container = DOMstrings.expensesList
             html = '<div class="item clearfix" id="exp-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div><div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>'
-            displayEachList(html, newItem, container)
+            displayEachList(html, newItem, container, "exp")
         }
         resetInputs()
     }
@@ -242,6 +260,4 @@ controllerModule = (function(bdMod, uiMod){
 controllerModule.init()
 
 //Left to do:
-//delete items
-//format numbers
 //toggle red class on inputs

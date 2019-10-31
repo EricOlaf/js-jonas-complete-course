@@ -156,7 +156,7 @@ var UIcontroller = (function(){
     };
 
     var formatNumber = function(num, type){
-        var int, dec;
+        var int, dec, numSplit;
         num = Math.abs(num);
         num = num.toFixed(2);
 
