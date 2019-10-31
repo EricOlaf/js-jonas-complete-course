@@ -58,6 +58,14 @@ budgetModule = (function(){
             calcData(type)
             return [data, newItem, type]
         },
+        calcExpPercentage: function(){
+           expPercentages = data.lists.exp.map(e=> {
+               e.calcPercentage();
+               return e.percentage;
+           })
+           console.log(expPercentages)
+           return expPercentages
+        }
        
     }
 })()
@@ -74,7 +82,13 @@ uiModule = (function(){
         expTotal: '.budget__expenses--value',
         incomeList: '.income__list',
         expensesList: '.expenses__list',
-        expTotalPercent: '.budget__expenses--percentage'
+        expTotalPercent: '.budget__expenses--percentage',
+        expensesPercentagelabel: '.item__percentage',
+    }
+    function nodeListLoop(fields, cb){
+        for(let i = 0; i < fields.length; i++){
+            cb(fields[i], i)
+        }
     }
     function displayTotal(total){
         document.querySelector(DOMstrings.budgetTotal).innerHTML = total; 
@@ -121,6 +135,17 @@ uiModule = (function(){
                 inValue: parseFloat(document.querySelector(DOMstrings.addValue).value)
             }
         },
+        showPercentages: function(percentages){
+            console.log(percentages)
+            var fields = document.querySelectorAll(DOMstrings.expensesPercentagelabel)
+            nodeListLoop(fields, function(cur, ind){
+                if(percentages[ind]>0){
+                    cur.textContent = percentages[ind] + '%'
+                }else{
+                    cur.textContent = '--'
+                }
+            })
+        },
         displayData:function(dataArr){
             //[data, newItem, type]
             displayTotal(dataArr[0].total);
@@ -143,18 +168,21 @@ controllerModule = (function(bdMod, uiMod){
         document.querySelector(DOMstrings.budgetTotal).innerHTML = 0;
         document.querySelector(DOMstrings.incTotal).innerHTML = 0;
         document.querySelector(DOMstrings.expTotal).innerHTML = 0;
+        document.querySelector(DOMstrings.expTotalPercent).innerHTML = "--";
 
     }
 
     function addInputItems(){
-        var data 
+        var data, percentages 
         //get and store the input values then send them to the budget module to perform calculations, then be able to update the ui with the new values.
         var input = uiMod.inputValues()
         if(input.inDesc && input.inValue){
             //sends the input to the budget
             data = bdMod.addInputtoBudget(input)
         }
-        uiMod.displayData(data)
+        percentages = bdMod.calcExpPercentage();
+        uiMod.displayData(data);
+        uiMod.showPercentages(percentages);
     }
 
     return{
