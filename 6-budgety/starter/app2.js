@@ -42,6 +42,7 @@ budgetModule = (function(){
             data.expPercent = Math.round((data.totals.exp / data.totals.inc) *100);
         }
     }
+
     return{
         addInputtoBudget: function(input){
             var id, type = input.inType, desc = input.inDesc, val = input.inValue, newItem
@@ -63,6 +64,11 @@ budgetModule = (function(){
                return e.percentage;
            })
            return expPercentages
+        },
+        deleteItem: function(type, id){
+            data.lists[type] = data.lists[type].filter(e=> e.id !== id);
+            calcData(type);
+            return [data, id, type]
         }
        
     }
@@ -153,6 +159,9 @@ uiModule = (function(){
         getDomStr: function(){
             return DOMstrings
         },
+        uiDeleteItem: function(data){
+            console.log(data)
+        }
     }
 })()
 
@@ -175,9 +184,17 @@ controllerModule = (function(bdMod, uiMod){
     }
 
     function deleteItem(event){
-        var itemID
+        var itemID, splitIDArr, type, idNum, newTotals;
         itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
-        console.log(itemID)
+        
+        if(itemID){
+            splitIDArr = itemID.split('-');
+            type = splitIDArr[0];
+            idNum = splitIDArr[1];
+
+            newTotals = bdMod.deleteItem(type, parseInt(idNum));
+            uiMod.uiDeleteItem(newTotals);
+        }
     }
 
     function addInputItems(){
