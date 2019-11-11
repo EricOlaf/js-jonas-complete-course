@@ -1,3 +1,1 @@
-import num from "./test";
-
-console.log(`I imported ${num}`);
+import str from "./models/Search";
