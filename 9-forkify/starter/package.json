@@ -4,14 +4,19 @@
   "description": "forkify project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
   },
   "author": "Eric Olaveson",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^4.41.2"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    "jquery": "^3.4.1"
+    "babel-polyfill": "^6.26.0"
   }
 }
