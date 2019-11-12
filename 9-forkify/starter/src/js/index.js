@@ -53,12 +53,20 @@ elements.searchResPages.addEventListener('click', e=>{
 
 /*RECIPE CONTROLLER*/
 
-async function myFunc(){
-    const r = new Recipe(35120)
-    await r.getRecipe();
-    r.calcTime();
-    r.calcServings();
-    console.log(r)
-}
+const controlRecipe = () => {
+    //Get ID from hash Url.
+    const id = window.location.hash.replace("#", "");
+    console.log(id);
 
-myFunc();
+    if(id){
+        //Prepare UI for changes
+
+        //Create new recipe object
+
+        //Get recipe data
+
+        //Calc servings and time using methods
+
+        //Render the recipe omn the screen.
+    }
+}
