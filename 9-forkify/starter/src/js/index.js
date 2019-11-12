@@ -1,6 +1,6 @@
 import Search from './models/Search';
 import * as searchView from './views/searchView';
-import {elements} from './views/base';
+import {elements, elementStrings, renderLoader, stopLoader} from './views/base';
 //only search for pizza bacon and broccoli.
 
 /*
@@ -22,11 +22,13 @@ const controlSearch = async () => {
         //3 Prep the ui for the results
         searchView.clearInput();
         searchView.clearResults();
+        renderLoader(elements.searchRes);
 
         //4 Search for the recipes
         await state.search.getResults();
 
         //5 Render the results to the ui
+        stopLoader(elementStrings.loaderClass)
         searchView.renderResults(state.search.result)
     }
 }
@@ -34,3 +36,12 @@ elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
     controlSearch();
 });
+
+elements.searchResPages.addEventListener('click', e=>{
+    const btn = e.target.closest('.btn-inline')
+    if(btn){
+        const goToPage = parseInt(btn.dataset.goto);
+        searchView.clearResults();
+        searchView.renderResults(state.search.result, goToPage)
+    }
+})
