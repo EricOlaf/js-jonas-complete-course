@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import {elements, elementStrings, renderLoader, stopLoader} from './views/base';
 //only search for pizza bacon and broccoli.
 
