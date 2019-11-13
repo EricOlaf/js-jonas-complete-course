@@ -32,10 +32,10 @@ const controlSearch = async () => {
             await state.search.getResults();
 
             //5 Render the results to the ui
-            stopLoader(elementStrings.loaderClass);
+            stopLoader();
             searchView.renderResults(state.search.result);
         }catch(err){
-            stopLoader(elementStrings.loaderClass);
+            stopLoader();
             console.log(err)
             alert(err)
         }
@@ -67,6 +67,8 @@ const controlRecipe = async () => {
 
     if(id){
         //Prepare UI for changes
+        recipeView.clearRecipe()
+        renderLoader(elements.recipeDiv);
 
         //Create new recipe object
         state.recipe = new Recipe(id)
@@ -82,7 +84,8 @@ const controlRecipe = async () => {
             //Render the recipe omn the screen.
             // console.log(state.recipe)
             state.recipe.parseIngredients();
-            console.log(state.recipe)
+            stopLoader();
+            recipeView.renderRecipe(state.recipe);
         }catch(err){
             console.log(err)
             alert(err)

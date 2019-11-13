@@ -3,7 +3,8 @@ export const elements = {
     searchInput: document.querySelector('.search__field'),
     searchResList: document.querySelector('.results__list'),
     searchRes: document.querySelector('.results'),
-    searchResPages: document.querySelector('.results__pages')
+    searchResPages: document.querySelector('.results__pages'),
+    recipeDiv: document.querySelector('.recipe'),
 }
 
 export const elementStrings = {
@@ -21,7 +22,7 @@ export const renderLoader = parent => {
     parent.insertAdjacentHTML('afterbegin', loader)
 }
 
-export const stopLoader = name => {
-    var el = document.querySelector(name);
+export const stopLoader = () => {
+    var el = document.querySelector(elementStrings.loaderClass);
     el.parentNode.removeChild(el)
 }
