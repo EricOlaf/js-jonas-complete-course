@@ -19,6 +19,6 @@ export default class List {
         this.items.splice(ind, 1);
     }
     updateCount(id, count){
-        this.items.find(e => e.id === id).count = newCount
+        this.items.find(e => e.id === id).count = count
     }
 }
