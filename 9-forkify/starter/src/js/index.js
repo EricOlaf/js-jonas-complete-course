@@ -113,6 +113,20 @@ const controlList = () => {
     console.log(state.list);
 }
 
+//Handle delete and update shopping list
+
+elements.shopping.addEventListener('click', e=>{
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    if(e.target.matches('.shopping__delete, .shopping__delete *')){
+        //delete item from the state
+        state.list.deleteItem(id);
+
+        //delete item from the UI
+        listView.deleteItem(id)
+    }
+})
+
 // window.addEventListener('hashchange', controlRecipe)
 // window.addEventListener('load', controlRecipe)
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
