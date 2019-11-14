@@ -1,7 +1,9 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import {elements, elementStrings, renderLoader, stopLoader} from './views/base';
 //only search for pizza bacon and broccoli.
 
@@ -97,6 +99,20 @@ const controlRecipe = async () => {
     }
 }
 
+/*List Controller*/
+
+const controlList = () => {
+    //Create list if there is none
+    if(!state.list) state.list = new List();
+
+    //Add ingredients to the list
+    state.recipe.ingredients.map(el=>{
+        const item = state.list.addItem(el.count, el.unit, el.ingredient);
+        listView.renderItem(item);
+    })
+    console.log(state.list);
+}
+
 // window.addEventListener('hashchange', controlRecipe)
 // window.addEventListener('load', controlRecipe)
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
@@ -110,6 +126,8 @@ elements.recipeDiv.addEventListener('click', e=>{
     }else if(e.target.matches('.btn-increase, .btn-increase *')){
         //increase the ingredient count
         state.recipe.updateServings('inc');
+    }else if(e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
+        controlList();
     }
     recipeView.updateServingsIngredients(state.recipe);
 })
