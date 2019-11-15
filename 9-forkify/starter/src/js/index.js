@@ -92,10 +92,7 @@ const controlRecipe = async () => {
             // console.log(state.recipe)
             state.recipe.parseIngredients();
             stopLoader();
-            const likeVar
-            if(state.likes){likeVar = state.likes.isLiked(id)}
-            else{likeVar = false};
-            recipeView.renderRecipe(state.recipe, likeVar);
+            recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
         }catch(err){
             console.log(err)
             alert(err)
@@ -142,6 +139,9 @@ elements.shopping.addEventListener('click', e => {
 // window.addEventListener('load', controlRecipe)
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+//TESTING
+state.likes = new Likes();
+
 /* Control Likes*/
 const controlLike = () => {
     if(!state.likes) state.likes = new Likes();
@@ -151,17 +151,19 @@ const controlLike = () => {
         //hasnt been liked yet
         const newLike = state.likes.addLike(
             currentID,
-            state.recipe.title,
+            searchView.limitRecipeTitle(state.recipe.title),
             state.recipe.publisher,
             state.recipe.imageUrl
         )
         likesView.toggleLikeBtn(true);
+        likesView.renderLike(newLike);
     }else{
         //already been liked
         state.likes.deleteLike(currentID);
         likesView.toggleLikeBtn(false);
+        likesView.deleteLike(currentID);
     }
-    console.log(state.likes)
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
 
 elements.recipeDiv.addEventListener('click', e=>{
