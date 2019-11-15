@@ -139,9 +139,6 @@ elements.shopping.addEventListener('click', e => {
 // window.addEventListener('load', controlRecipe)
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
-//TESTING
-state.likes = new Likes();
-
 /* Control Likes*/
 const controlLike = () => {
     if(!state.likes) state.likes = new Likes();
@@ -165,6 +162,13 @@ const controlLike = () => {
     }
     likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
+
+window.addEventListener('load', ()=>{
+    state.likes = new Likes();
+    state.likes.readStorage();
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+    state.likes.likes.forEach(like=> likesView.renderLike(like));
+});
 
 elements.recipeDiv.addEventListener('click', e=>{
     if(e.target.matches('.btn-decrease, .btn-decrease *')){
