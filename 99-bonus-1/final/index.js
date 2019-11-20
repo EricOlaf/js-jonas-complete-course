@@ -29,6 +29,7 @@ const server = http.createServer((req, res) => {
             //We need two callbacks because we are putting the cards inside of the made overview template.
             fs.readFile(`${__dirname}/templates/template-card.html`, 'utf-8', (err, data) => {
             
+                //loop over the cards and than join them.
                 const cardsOutput = laptopData.map(el => replaceTemplate(data, el)).join('');
                 overviewOutput = overviewOutput.replace('{%CARDS%}', cardsOutput); 
                 
