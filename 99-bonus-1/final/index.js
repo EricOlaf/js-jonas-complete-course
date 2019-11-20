@@ -1,5 +1,9 @@
+//bring in methods that are natvie to Node.
+//for reading files
 const fs = require('fs');
+//for setting up the server
 const http = require('http');
+//for being able to use the url and take off the query parameter.
 const url = require('url');
 
 const json = fs.readFileSync(`${__dirname}/data/data.json`, 'utf-8');
