@@ -6,11 +6,15 @@ const http = require('http');
 //for being able to use the url and take off the query parameter.
 const url = require('url');
 
+//get the JSON file  
 const json = fs.readFileSync(`${__dirname}/data/data.json`, 'utf-8');
+//Parse the JSON
 const laptopData = JSON.parse(json);
 
+//setup the server to do something when a particular url is hit.
 const server = http.createServer((req, res) => {
     
+    //get and parse the path name and query id.
     const pathName = url.parse(req.url, true).pathname;
     const id = url.parse(req.url, true).query.id;
     
