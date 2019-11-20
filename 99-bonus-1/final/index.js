@@ -6,7 +6,7 @@ const http = require('http');
 //for being able to use the url and take off the query parameter.
 const url = require('url');
 
-//get the JSON file  
+//get the JSON file, Sync makes it a synchronous blocking call. 
 const json = fs.readFileSync(`${__dirname}/data/data.json`, 'utf-8');
 //Parse the JSON
 const laptopData = JSON.parse(json);
@@ -20,11 +20,13 @@ const server = http.createServer((req, res) => {
     
     // PRODUCTS OVERVIEW
     if (pathName === '/products' || pathName === '/') {
+        //set the response header with a type and status code.
         res.writeHead(200, { 'Content-type': 'text/html'});
         
         fs.readFile(`${__dirname}/templates/template-overview.html`, 'utf-8', (err, data) => {
             let overviewOutput = data;
             
+            //We need two callbacks because we are putting the cards inside of the made overview template.
             fs.readFile(`${__dirname}/templates/template-card.html`, 'utf-8', (err, data) => {
             
                 const cardsOutput = laptopData.map(el => replaceTemplate(data, el)).join('');
