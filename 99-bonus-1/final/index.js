@@ -35,9 +35,7 @@ const server = http.createServer((req, res) => {
                 
                 res.end(overviewOutput);
             });
-        });
-        
-        
+        });  
     }
     
     // LAPTOP DETAIL
