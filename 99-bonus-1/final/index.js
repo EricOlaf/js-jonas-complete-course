@@ -6,7 +6,7 @@ const http = require('http');
 //for being able to use the url and take off the query parameter.
 const url = require('url');
 
-//get the JSON file, Sync makes it a synchronous blocking call. 
+//get the JSON file, Sync makes it a synchronous blocking call and really should never be done in Node because it is single threaded. 
 const json = fs.readFileSync(`${__dirname}/data/data.json`, 'utf-8');
 //Parse the JSON
 const laptopData = JSON.parse(json);
@@ -44,6 +44,7 @@ const server = http.createServer((req, res) => {
     else if (pathName === '/laptop' && id < laptopData.length) {
         res.writeHead(200, { 'Content-type': 'text/html'});
         
+        //__dirname gives you the absolute path of the directory containing the code while process.cwd gives you the current working directory.
         fs.readFile(`${__dirname}/templates/template-laptop.html`, 'utf-8', (err, data) => {
             const laptop = laptopData[id];
             const output = replaceTemplate(data, laptop);
